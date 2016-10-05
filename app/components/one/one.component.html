@@ -1,0 +1,27 @@
+<template #employeeTemplate let-model="item" let-index="index">
+    <span>{{model.name + ' '+ model.grade + ' ' + model.job + ' ' + model.age + ' y.o.'}}</span>
+</template>
+<div class="input-group">
+    <div class="form-control">
+        <span *ngIf="teams && teams.selectedTeamCopy">
+            <span *ngFor="let employee of teams.selectedTeamCopy.employees" class="btn btn-default btn-xs m-0-3-3-0">
+                <span [tooltip]="employee.grade + ' ' + employee.job" [textContent]="employee.name"></span>
+                <span (click)="removeEmployeeFromSelectedEmployees(employee)" class="close">&nbsp;&times;</span>
+            </span>
+        </span>
+        <input
+                [disabled]="!teams || !teams.selectedTeamCopy"
+                [(ngModel)]="input"
+                [typeaheadMinLength]="0"
+                [typeahead]="employeeSource"
+                [typeaheadItemTemplate]="employeeTemplate"
+                [typeaheadOptionsLimit]="20"
+                (typeaheadOnSelect)="typeaheadOnSelect($event)"
+        />
+        <!--[typeaheadOptionField]="'name'"-->
+    </div>
+    <span class="input-group-btn">
+            <button class="btn btn-default" type="button" (click)="refresh()" [disabled]="!teams || !teams.selectedTeamCopy || !teams.selectedTeamCopy.employees.length">Refresh</button>
+        </span>
+</div>
+    

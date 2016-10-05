@@ -1,0 +1,28 @@
+<div>
+    <div class="form-group">
+        <div class="input-group">
+            <input [(ngModel)]="newTeamName" (keyup)="enterTeam($event)" type="text" class="form-control">
+            <span class="input-group-btn">
+            <button [disabled]="!newTeamName" class="btn btn-default" (click)="addNewTeam()"> + </button>
+        </span>
+        </div>
+    </div>
+    <div class="panel panel-default" [hidden]="!teams || !teams.length">
+        <div class="panel-body">
+            <accordion [closeOthers]="true">
+                <accordion-group *ngFor="let team of teams" [isOpen]="team.active">
+                    <div accordion-heading>
+                        <span (click)="selectTeam(team, $event)" [textContent]="team.name"></span>
+                        <span class="close pull-right" (click)="deleteTeam(team)">&nbsp;&times;</span>
+                    </div>
+                    <div>
+                        <span class="btn btn-default btn-xs m-0-3-3-0" *ngFor="let employee of team.employees" [tooltip]="employee.grade + ' ' + employee.job">
+                        <span [textContent]="employee.name"></span>
+                        <span class="close" (click)="deleteEmployeeFromTeam(employee, team)">&nbsp;&times;</span>
+                        </span>
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
+    </div>
+</div>
